@@ -331,7 +331,10 @@ def performance_to_metadata(relation, m):
 
 def work_to_metadata(work, m):
     m.add_unique("musicbrainz_workid", work.id)
-    if 'language' in work.children:
+    if 'language_list' in work.children:
+        for language in work.language_list[0].language:
+            m.add_unique("language", language.text)
+    elif 'language' in work.children:
         m.add_unique("language", work.language[0].text)
     if 'title' in work.children:
         m.add_unique("work", work.title[0].text)
